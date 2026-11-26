@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DocuMind | AI Document Intelligence</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">✦</div>
+
+            <div>
+                <h2>DocuMind</h2>
+                <span>AI Document Intelligence</span>
+            </div>
+        </div>
+
+
+        <nav class="navigation">
+
+            <a href="#dashboard" class="nav-item active">
+                <span>▦</span>
+                Dashboard
+            </a>
+
+            <a href="#documents" class="nav-item">
+                <span>▤</span>
+                Documents
+            </a>
+
+            <a href="#summary-section" class="nav-item">
+                <span>✧</span>
+                Summarization
+            </a>
+
+            <a href="#qa-section" class="nav-item">
+                <span>◈</span>
+                Ask Questions
+            </a>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="tech-box">
+
+                <div class="tech-title">
+                    <span class="pulse"></span>
+                    AI Engine
+                </div>
+
+                <p>
+                    Ollama + MiniLM + FAISS
+                </p>
+
+            </div>
+
+            <div class="sidebar-footer">
+                Multi-Document RAG System
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <p class="eyebrow">
+                    AI DOCUMENT WORKSPACE
+                </p>
+
+                <h1 id="dashboard">
+                    Document Intelligence
+                </h1>
+
+                <p class="subtitle">
+                    Upload, summarize and explore multiple documents using RAG.
+                </p>
+
+            </div>
+
+            <div class="status-badge">
+                <span></span>
+                System Ready
+            </div>
+
+        </header>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    ▤
+                </div>
+
+                <div>
+                    <span>Documents</span>
+                    <strong id="documentCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon purple">
+                    ◫
+                </div>
+
+                <div>
+                    <span>Total Chunks</span>
+                    <strong id="chunkCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    ◉
+                </div>
+
+                <div>
+                    <span>Processing</span>
+                    <strong id="processingStatus">Ready</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= UPLOAD ================= -->
+
+        <section class="panel" id="documents">
+
+            <div class="panel-header">
+
+                <div>
+                    <h2>Upload Documents</h2>
+
+                    <p>
+                        Add multiple PDF, DOCX or TXT files to your workspace.
+                    </p>
+                </div>
+
+                <div class="format-label">
+                    PDF · DOCX · TXT
+                </div>
+
+            </div>
+
+
+            <div
+                class="drop-zone"
+                id="dropZone"
+            >
+
+                <div class="upload-icon">
+                    ↑
+                </div>
+
+                <h3>
+                    Drop your documents here
+                </h3>
+
+                <p>
+                    or select files from your computer
+                </p>
+
+                <label
+                    for="fileInput"
+                    class="browse-btn"
+                >
+                    Browse Files
+                </label>
+
+                <input
+                    type="file"
+                    id="fileInput"
+                    multiple
+                    accept=".pdf,.docx,.txt"
+                    hidden
+                >
+
+                <div class="upload-note">
+                    Multiple files supported
+                </div>
+
+            </div>
+
+
+            <!-- SELECTED FILES -->
+
+            <div
+                id="selectedFiles"
+                class="selected-files"
+            ></div>
+
+
+            <div class="upload-actions">
+
+                <button
+                    class="primary-btn"
+                    onclick="processDocuments()"
+                >
+                    <span>⚡</span>
+                    Process Documents
+                </button>
+
+                <div
+                    id="processStatus"
+                    class="process-status"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= DOCUMENTS ================= -->
+
+        <section class="panel">
+
+            <div class="panel-header">
+
+                <div>
+                    <h2>Document Workspace</h2>
+
+                    <p>
+                        Documents currently available for analysis.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div
+                id="documentInfo"
+                class="document-grid"
+            >
+
+                <div class="empty-state">
+
+                    <div>▤</div>
+
+                    <p>
+                        No documents processed yet.
+                    </p>
+
+                    <span>
+                        Upload documents above to begin.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SUMMARY ================= -->
+
+        <section
+            class="panel"
+            id="summary-section"
+        >
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        <span class="heading-icon">✧</span>
+                        AI Summary
+                    </h2>
+
+                    <p>
+                        Generate a consolidated summary across all uploaded documents.
+                    </p>
+
+                </div>
+
+                <button
+                    class="secondary-btn"
+                    onclick="generateSummary()"
+                >
+                    Generate Summary
+                </button>
+
+            </div>
+
+
+            <div
+                id="summary"
+                class="summary-box"
+            >
+
+                <div class="placeholder-content">
+
+                    <div class="large-icon">
+                        ✧
+                    </div>
+
+                    <h3>
+                        Your AI summary will appear here
+                    </h3>
+
+                    <p>
+                        Process your documents and click
+                        <b>Generate Summary</b>.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= Q&A ================= -->
+
+        <section
+            class="panel"
+            id="qa-section"
+        >
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        <span class="heading-icon">◈</span>
+                        Ask Your Documents
+                    </h2>
+
+                    <p>
+                        Ask questions and get answers grounded in your documents.
+                    </p>
+
+                </div>
+
+                <div class="rag-badge">
+                    RAG Enabled
+                </div>
+
+            </div>
+
+
+            <div class="question-area">
+
+                <textarea
+                    id="questionInput"
+                    placeholder="Ask anything about your uploaded documents..."
+                    rows="3"
+                ></textarea>
+
+
+                <div class="question-footer">
+
+                    <span>
+                        Answers are generated using retrieved document context.
+                    </span>
+
+                    <button
+                        class="ask-btn"
+                        onclick="askQuestion()"
+                    >
+                        Ask Question
+                        <span>→</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ANSWER -->
+
+            <div
+                id="answer"
+                class="answer-box"
+            >
+
+                <div class="answer-placeholder">
+
+                    <div class="large-icon">
+                        ◈
+                    </div>
+
+                    <h3>
+                        Ask a question to begin
+                    </h3>
+
+                    <p>
+                        The system will retrieve relevant passages
+                        and generate a grounded answer.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <div>
+                <strong>DocuMind</strong>
+                · Multi-Document RAG System
+            </div>
+
+            <div>
+                Ollama · MiniLM · FAISS
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script src="app.js"></script>
+
+</body>
+
+</html>

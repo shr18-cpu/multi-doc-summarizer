@@ -1,0 +1,50 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and temporary files
+*.log
+*.tmp
+temp/
+tmp/
+
+# Generated model and ML files
+*.pth
+*.pt
+*.pkl
+*.joblib
+*.h5
+*.onnx
+
+# Generated vector database and embeddings
+faiss_index/
+vector_store/
+embeddings_cache/
+
+# Build files
+build/
+dist/
+*.egg-info/
